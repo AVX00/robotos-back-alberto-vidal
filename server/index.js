@@ -1,6 +1,8 @@
 const serverSays = require("debug")("robots:server:");
 const chalk = require("chalk");
 const express = require("express");
+const morgan = require("morgan");
+const router = require("./routers/robotsRouter");
 
 const app = express();
 
@@ -16,5 +18,9 @@ const raiseServer = async (port) =>
       );
     });
   });
+
+app.use(morgan("dev"));
+
+app.use("/robots", router);
 
 module.exports = raiseServer;
