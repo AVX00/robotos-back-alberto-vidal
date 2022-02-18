@@ -1,12 +1,15 @@
 require("dotenv").config();
-const serverSays = require("debug")("robots:");
+const serverSays = require("debug")("robots:root:");
 const chalk = require("chalk");
-const express = require("express");
+
+const raiseServer = require("./server");
 
 const port = process.env.SERVER_PORT;
 
-const app = express();
-
-app.listen(port, () =>
-  serverSays(chalk.blue(`server listening at http://localhost:${port}`))
-);
+(async () => {
+  try {
+    await raiseServer(port);
+  } catch (error) {
+    serverSays(chalk.red(error));
+  }
+})();
