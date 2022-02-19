@@ -5,7 +5,7 @@ const connectdb = require("./dataBase");
 
 const raiseServer = require("./server");
 
-const port = process.env.SERVER_PORT;
+const port = process.env.PORT;
 const key = process.env.MONGO_DB;
 
 (async () => {
