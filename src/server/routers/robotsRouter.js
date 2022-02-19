@@ -1,11 +1,10 @@
 const serverSays = require("debug")("robots:router:");
 const express = require("express");
+const { getRobots } = require("../controllers/robotsControllers");
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  serverSays("get at robots/");
-});
+router.get("/", getRobots);
 
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
