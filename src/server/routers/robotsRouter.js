@@ -4,8 +4,8 @@ const {
   getRobot,
   createRobot,
   updateRobot,
-  tokenValidator,
 } = require("../controllers/robotsControllers");
+const tokenValidator = require("../middlewares/validators/tokenValidator");
 
 const router = express.Router();
 

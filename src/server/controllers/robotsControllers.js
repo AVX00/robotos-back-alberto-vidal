@@ -1,14 +1,5 @@
 const Robot = require("../../dataBase/models/Robot");
 
-const tokenValidator = (req, res, next) => {
-  const { token } = req.query;
-  if (token === process.env.TOKEN) {
-    next();
-    return;
-  }
-  res.status(401).json({ error: "unauthorized" });
-};
-
 const getRobots = async (req, res, next) => {
   try {
     const robots = await Robot.find();
@@ -56,6 +47,5 @@ module.exports = {
   getRobot,
   createRobot,
   updateRobot,
-  tokenValidator,
   deleteRobot,
 };
