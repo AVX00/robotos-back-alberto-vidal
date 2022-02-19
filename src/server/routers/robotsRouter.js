@@ -1,4 +1,3 @@
-const serverSays = require("debug")("robots:router:");
 const express = require("express");
 const {
   getRobots,
