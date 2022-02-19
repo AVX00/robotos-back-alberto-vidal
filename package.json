@@ -6,21 +6,20 @@
   "devDependencies": {
     "eslint": "^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.2"
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-config-prettier": "^8.3.0"
   },
   "dependencies": {
     "chalk": "4",
     "debug": "^4.3.3",
     "dotenv": "^16.0.0",
-    "eslint-config-prettier": "^8.3.0",
     "express": "^4.17.3",
     "mongoose": "^6.2.2",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
   },
   "engines": {
-    "node": "8.11.3",
-    "npm": "6.4.1"
+    "node": "16.14.0",
+    "npm": "8.3.1"
   },
   "scripts": {
     "start": "node src/index.js",
