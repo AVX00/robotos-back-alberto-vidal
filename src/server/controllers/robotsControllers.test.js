@@ -1,5 +1,10 @@
 const Robot = require("../../dataBase/models/Robot");
-const { getRobots, getRobot, createRobot } = require("./robotsControllers");
+const {
+  getRobots,
+  getRobot,
+  createRobot,
+  updateRobot,
+} = require("./robotsControllers");
 
 jest.mock("../../dataBase/models/Robot");
 
@@ -117,6 +122,72 @@ describe("Given a creatoRobot controller", () => {
 
       expect(Robot.create).toHaveBeenCalled();
       expect(next).toBeCalledWith(reason);
+    });
+  });
+
+  describe("When it's called with req res and next and req.body has a robot with stats over 10", () => {
+    test("Then the method next shold be called", async () => {
+      const robot = {
+        name: "name",
+        img: "url.img",
+        stats: {
+          speed: 12,
+          resistance: -32,
+          "fabrication-date": new Date(),
+        },
+      };
+      const next = jest.fn();
+      const req = { body: { robot } };
+      const res = null;
+
+      await createRobot(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given a update Robot controller", () => {
+  describe("When it's called with req res and next and Robot.findByIdAndUpdate resolves", () => {
+    test("Then res.status and res.json should be called with 200 and the value returned by findByIdAndUpdate", async () => {
+      const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+      const req = { body: { robot: {} } };
+      const next = jest.fn();
+      const newRobot = {};
+      const status = 200;
+      Robot.findByIdAndUpdate = jest.fn().mockResolvedValue(newRobot);
+
+      await updateRobot(req, res, next);
+
+      expect(next).not.toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(status);
+      expect(res.json).toHaveBeenCalledWith(newRobot);
+    });
+  });
+
+  describe("When it's called with req res and next and req body does not have a robot", () => {
+    test("Then the function next should be called", async () => {
+      const next = jest.fn();
+      const req = { body: {} };
+      const res = null;
+
+      await updateRobot(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+
+  describe("When it's called with req res next and Robot.findByIdAndUpdate rejects", () => {
+    test("Then the function next should be called with rejection reason", async () => {
+      const reason = new Error("reason");
+      const next = jest.fn();
+      const req = { body: { robot: {} } };
+      const res = null;
+      Robot.findByIdAndUpdate = jest.fn().mockRejectedValue(reason);
+
+      await updateRobot(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(reason);
     });
   });
 });
