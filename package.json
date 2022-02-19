@@ -18,8 +18,12 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
   },
+  "engines": {
+    "node": "8.11.3",
+    "npm": "6.4.1"
+  },
   "scripts": {
-    "start": "node src",
+    "start": "node src/index.js",
     "dev-start": "nodemon src -q"
   }
 }
