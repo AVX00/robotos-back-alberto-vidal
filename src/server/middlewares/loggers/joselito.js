@@ -1,5 +1,4 @@
 const chalk = require("chalk");
-
 const serverSays = require("debug")("robots:joselito:");
 
 const joselito = (req, res, next) => {
@@ -12,6 +11,7 @@ const joselito = (req, res, next) => {
         `${ip} ${method}  at ${originalUrl} ${duration} ms`
       )
     );
+    serverSays("=======================================");
   });
   next();
 };
