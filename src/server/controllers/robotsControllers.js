@@ -10,7 +10,7 @@ const getRobots = async (req, res, next) => {
 };
 
 const getRobot = async (req, res, next) => {
-  const { id } = req.params;
+  const { id } = req.query;
   try {
     const robot = await Robot.findById(id);
     res.status(200).json({ robot });
@@ -40,7 +40,15 @@ const updateRobot = async (req, res, next) => {
   }
 };
 
-const deleteRobot = async (req, res, next) => {};
+const deleteRobot = async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    await Robot.findByIdAndDelete(id);
+    res.status(200).json({ id });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getRobots,
