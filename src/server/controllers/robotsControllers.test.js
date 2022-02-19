@@ -4,6 +4,7 @@ const {
   getRobot,
   createRobot,
   updateRobot,
+  deleteRobot,
 } = require("./robotsControllers");
 
 jest.mock("../../dataBase/models/Robot");
@@ -186,6 +187,39 @@ describe("Given a update Robot controller", () => {
       Robot.findByIdAndUpdate = jest.fn().mockRejectedValue(reason);
 
       await updateRobot(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(reason);
+    });
+  });
+});
+
+describe("Given a deleteRobot controller", () => {
+  describe("When it's called with req res and Robot.findByIdAndDelete resolves and req has query.id property", () => {
+    test("Then the methods res.status and res.json should be called with 200 and the resolution value", async () => {
+      const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+      const id = 3;
+      const req = { query: { id } };
+      const status = 200;
+      const deletedRobot = {};
+      Robot.findByIdAndDelete = jest.fn().mockResolvedValue(deletedRobot);
+
+      await deleteRobot(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(status);
+      expect(res.json).toHaveBeenCalledWith({ id });
+    });
+  });
+
+  describe("When it's called with res req and next and Robot.findByIdAndDelete rejects", () => {
+    test("Then the next function should be called with rejection reason", async () => {
+      const reason = new Error("reason");
+      const id = 3;
+      const req = { query: { id } };
+      const res = null;
+      const next = jest.fn();
+      Robot.findByIdAndDelete = jest.fn().mockRejectedValue(reason);
+
+      await deleteRobot(req, res, next);
 
       expect(next).toHaveBeenCalledWith(reason);
     });
