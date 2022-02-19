@@ -1,15 +1,22 @@
-const serverSays = require("debug")("robots:router:");
 const express = require("express");
+const {
+  getRobots,
+  getRobot,
+  createRobot,
+  updateRobot,
+  deleteRobot,
+} = require("../controllers/robotsControllers");
+const tokenValidator = require("../middlewares/validators/tokenValidator");
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  serverSays("get at robots/");
-});
+router.get("/:id", getRobot);
 
-router.get("/:id", (req, res, next) => {
-  const { id } = req.params;
-  serverSays(`get at robots/${id}`);
-});
+router.get("/", getRobots);
+router.post("/create", tokenValidator, createRobot);
+
+router.put("/update", tokenValidator, updateRobot);
+
+router.delete("/delete/:id", tokenValidator, deleteRobot);
 
 module.exports = router;

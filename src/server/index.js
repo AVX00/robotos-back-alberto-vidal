@@ -1,7 +1,7 @@
 const serverSays = require("debug")("robots:server:");
 const chalk = require("chalk");
 const express = require("express");
-const morgan = require("morgan");
+const joselito = require("./middlewares/loggers/joselito");
 const router = require("./routers/robotsRouter");
 
 const app = express();
@@ -19,7 +19,8 @@ const raiseServer = async (port) =>
     });
   });
 
-app.use(morgan("dev"));
+app.use(express.json());
+app.use(joselito);
 
 app.use("/robots", router);
 
