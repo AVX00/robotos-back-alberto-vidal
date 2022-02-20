@@ -47,11 +47,12 @@ describe("Given a getRobots controller", () => {
 });
 
 describe("Given a getRobot controller", () => {
-  describe("When it's called with req with propertiy query.id , res, and next and Robot.find resolves", () => {
+  describe("When it's called with req url contains an id , res, and next and Robot.find resolves", () => {
     test("Then res.status and res.json should have been called with 200 and the resolution", async () => {
       const robot = {};
       const status = 200;
-      const req = { query: { id: 3 } };
+      const req = {};
+      req.url = "/3";
       const next = jest.fn();
       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
       Robot.findById = jest.fn().mockResolvedValue(robot);
@@ -65,11 +66,12 @@ describe("Given a getRobot controller", () => {
     });
   });
 
-  describe("When it's called with req with property query.id, res and next and Robot.find rejects", () => {
+  describe("When it's called with req with url with id, res and next and Robot.find rejects", () => {
     test("Then next should be called with reject reason", async () => {
       const next = jest.fn();
       const reason = new Error("good reason");
-      const req = { query: { id: 78 } };
+      const req = {};
+      req.url = "/3";
       const res = null;
       Robot.findById = jest.fn().mockRejectedValue(reason);
 
@@ -185,8 +187,9 @@ describe("Given a deleteRobot controller", () => {
   describe("When it's called with req res and Robot.findByIdAndDelete resolves and req has query.id property", () => {
     test("Then the methods res.status and res.json should be called with 200 and the resolution value", async () => {
       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
-      const id = 3;
-      const req = { query: { id } };
+      const id = "3";
+      const req = {};
+      req.url = "/delete/3?";
       const status = 200;
       const deletedRobot = {};
       Robot.findByIdAndDelete = jest.fn().mockResolvedValue(deletedRobot);
@@ -201,8 +204,8 @@ describe("Given a deleteRobot controller", () => {
   describe("When it's called with res req and next and Robot.findByIdAndDelete rejects", () => {
     test("Then the next function should be called with rejection reason", async () => {
       const reason = new Error("reason");
-      const id = 3;
-      const req = { query: { id } };
+      const req = {};
+      req.url = "/delete/3?";
       const res = null;
       const next = jest.fn();
       Robot.findByIdAndDelete = jest.fn().mockRejectedValue(reason);
