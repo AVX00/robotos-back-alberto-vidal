@@ -23,7 +23,6 @@ const raiseServer = async (port) =>
 app.use(helmet());
 app.use(express.json());
 app.use(joselito);
-
 app.use("/robots", router);
 
 module.exports = raiseServer;
