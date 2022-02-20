@@ -37,7 +37,7 @@ const updateRobot = async (req, res, next) => {
   try {
     const robot = req.body;
     // eslint-disable-next-line no-underscore-dangle
-    const updatedRobot = await Robot.findByIdAndUpdate(robot._id, robot);
+    const updatedRobot = await Robot.findByIdAndUpdate(robot.id, robot);
     res.status(200).json(updatedRobot);
   } catch (error) {
     next(error);
