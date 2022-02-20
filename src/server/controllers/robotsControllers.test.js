@@ -12,18 +12,6 @@ jest.mock("../../dataBase/models/Robot");
 describe("Given a getRobots controller", () => {
   beforeEach(() => jest.resetAllMocks());
 
-  describe("When it's invoked with req res and next and req has property query.idRobot", () => {
-    test("Then the function next should be invoked", () => {
-      const req = { query: { idRobot: 3 } };
-      const next = jest.fn();
-      const res = null;
-
-      getRobots(req, res, next);
-
-      expect(next).toHaveBeenCalled();
-    });
-  });
-
   describe("When it's invoked with req and res and req doesn't have the property query.idRobot", () => {
     test("Then the functions res.status and res.json should be invoked with status 200 and json []", async () => {
       const robots = [];

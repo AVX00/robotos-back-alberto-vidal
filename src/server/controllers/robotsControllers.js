@@ -12,7 +12,6 @@ const getRobots = async (req, res, next) => {
 const getRobot = async (req, res, next) => {
   try {
     const idRobot = req.url.substring(1);
-    console.log(idRobot);
     const robot = await Robot.findById(idRobot);
     res.status(200).json({ robot });
   } catch (error) {
@@ -43,7 +42,10 @@ const updateRobot = async (req, res, next) => {
 
 const deleteRobot = async (req, res, next) => {
   try {
-    const { id } = req.query;
+    const id = req.url.substring(
+      req.url.lastIndexOf("/") + 1,
+      req.url.lastIndexOf("?")
+    );
     await Robot.findByIdAndDelete(id);
     res.status(200).json({ id });
   } catch (error) {
