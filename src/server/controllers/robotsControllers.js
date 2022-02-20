@@ -1,10 +1,6 @@
 const Robot = require("../../dataBase/models/Robot");
 
 const getRobots = async (req, res, next) => {
-  if (req.query.idRobot) {
-    next();
-    return;
-  }
   try {
     const robots = await Robot.find();
     res.status(200).json({ robots });
@@ -15,7 +11,8 @@ const getRobots = async (req, res, next) => {
 
 const getRobot = async (req, res, next) => {
   try {
-    const { idRobot } = req.query;
+    const idRobot = req.url.substring(1);
+    console.log(idRobot);
     const robot = await Robot.findById(idRobot);
     res.status(200).json({ robot });
   } catch (error) {

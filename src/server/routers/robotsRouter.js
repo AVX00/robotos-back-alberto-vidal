@@ -10,7 +10,9 @@ const tokenValidator = require("../middlewares/validators/tokenValidator");
 
 const router = express.Router();
 
-router.get("/:idRobot?", getRobots, getRobot);
+router.get("/:idRobot", getRobot);
+
+router.get("/", getRobots);
 
 router.post("/create", tokenValidator, createRobot);
 
