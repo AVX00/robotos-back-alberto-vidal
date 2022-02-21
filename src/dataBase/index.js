@@ -7,9 +7,12 @@ const { default: mongoose } = require("mongoose");
 const connectdb = async (key) =>
   new Promise((resolve, reject) => {
     serverSays(chalk.blue("Connecting to DB..."));
-    mongoose.set("toJSON", (doc, ret) => {
-      delete ret._id;
-      delete ret.__v;
+    mongoose.set("toJSON", {
+      virtuals: true,
+      transform: (doc, ret) => {
+        delete ret._id;
+        delete ret.__v;
+      },
     });
     mongoose.connect(key, (error) => {
       if (error) {
