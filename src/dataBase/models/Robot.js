@@ -13,15 +13,6 @@ const RobotSchema = new Schema({
   },
 });
 
-RobotSchema.method("transform", function () {
-  const robot = this.toObject();
-
-  robot.id = robot._id;
-  delete robot._id;
-
-  return robot;
-});
-
 const Robot = model("Robot", RobotSchema, "robotos");
 
 module.exports = Robot;

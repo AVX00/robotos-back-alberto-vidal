@@ -42,10 +42,7 @@ const updateRobot = async (req, res, next) => {
 
 const deleteRobot = async (req, res, next) => {
   try {
-    const id = req.url.substring(
-      req.url.lastIndexOf("/") + 1,
-      req.url.lastIndexOf("?")
-    );
+    const { id } = req.params;
     await Robot.findByIdAndDelete(id);
     res.status(200).json({ id });
   } catch (error) {
