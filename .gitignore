@@ -4,3 +4,4 @@ coverage
 sonar-project.properties
 sonar.key
 .scannerwork
+.vscode
