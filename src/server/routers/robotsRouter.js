@@ -18,6 +18,6 @@ router.post("/create", auth, createRobot);
 
 router.put("/update", auth, updateRobot);
 
-router.delete("/delete/:idRobot", auth, deleteRobot);
+router.delete("/delete/:id", auth, deleteRobot);
 
 module.exports = router;
