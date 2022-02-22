@@ -23,14 +23,17 @@ const loginUser = async (req, res, next) => {
   const { userName, password: userPassword } = req.body;
 
   try {
-    const { password, id } = await User.findOne({ userName });
-    if (await bcrypt.compare(userPassword, password)) {
-      const token = jwt.sign({ userName, id }, process.env.SECRET, {
+    const user = await User.findOne({ userName });
+    if (!user) {
+      res.status(400).json({ error: "invalid username or password" });
+    }
+    if (await bcrypt.compare(userPassword, user.password)) {
+      const token = jwt.sign({ userName, id: user.id }, process.env.SECRET, {
         expiresIn: "4d",
       });
       res.json({ token });
     } else {
-      res.status(401).json({ error: "incorrect password" });
+      res.status(401).json({ error: "invalid username or password" });
     }
   } catch (error) {
     next(error);
