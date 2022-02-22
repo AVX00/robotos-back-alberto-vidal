@@ -6,9 +6,14 @@ const registerUser = async (req, res, next) => {
   const { userName, password: userPassword } = req.body;
 
   try {
-    const password = await bcrypt.hash(userPassword, 10);
-    await User.create({ userName, password });
-    res.status(201).json({ user: "created" });
+    const userFoundInDB = await User.findOne({ userName });
+    if (!userFoundInDB) {
+      const password = await bcrypt.hash(userPassword, 10);
+      await User.create({ userName, password });
+      res.status(201).json({ user: "created" });
+      return;
+    }
+    res.status(409).json({ error: "userName taken" });
   } catch (error) {
     next(new Error("error creating user"));
   }

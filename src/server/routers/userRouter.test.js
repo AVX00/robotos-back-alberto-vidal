@@ -19,7 +19,7 @@ afterAll(() => {
 });
 
 describe("Given a users router", () => {
-  describe("When it receibes a post request at /user/register with body {userName: 'joselito': password:'123'}", () => {
+  describe("When it receives a post request at /user/register with body {userName: 'joselito': password:'123'} an username isn't taken", () => {
     test("Then it should respond with status 201 and a json {'user': 'created'}", async () => {
       const expectedResponse = { user: "created" };
       const newUser = { userName: "joselito", password: "123" };
@@ -30,6 +30,14 @@ describe("Given a users router", () => {
         .expect(201);
 
       expect(body).toEqual(expectedResponse);
+    });
+  });
+
+  describe("When it receives a post request at /user/register with body {userName: 'joselito', password: '123' } and username is taken", () => {
+    test("Then ", () => {
+      // Arrange
+      // Act
+      // Assert
     });
   });
 });
