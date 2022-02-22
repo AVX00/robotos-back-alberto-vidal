@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const { default: mongoose } = require("mongoose");
 const request = require("supertest");
@@ -12,7 +13,14 @@ beforeAll(async () => {
   const uri = dataBase.getUri();
   await connectdb(uri);
 });
+
 beforeEach(async () => {
+  const registeredUser = {
+    userName: "joselito1",
+    password: "$2b$10$e.dm7qSlu.iq1FzZsZn4AujwjYJLNxhsNcZvB8XPRAuPlESWZkbTe",
+  };
+
+  User.create(registeredUser);
   await User.deleteMany({});
 });
 afterAll(() => {
@@ -36,12 +44,11 @@ describe("Given a users router at endpoint /user/register", () => {
     });
   });
 
-  describe("When it receives a post request with body {userName: 'joselito', password: '123' } and username is taken", () => {
+  describe("When it receives a post request with body {userName: 'joselito1', password: '123' } and username is taken", () => {
     test("Then it should respond with status 409 and a json {error: 'userName taken'}", async () => {
       const expectedResponse = { error: "userName taken" };
       const expectedStatus = 409;
-      const newUser = { userName: "joselito", password: "123" };
-      User.create(newUser);
+      const newUser = { userName: "joselito1", password: "123" };
 
       const { body } = await request(app)
         .post("/user/register")
@@ -54,7 +61,7 @@ describe("Given a users router at endpoint /user/register", () => {
 });
 
 describe("Given a user router at endpoint /user/login", () => {
-  describe("When it receives a request with method post with body {userName: 'joselito', password:'123'}and user is not registered}", () => {
+  describe("When it receives a request with method post with body {userName: 'joselito', password:'123'} and user is not registered}", () => {
     test("Then it should respond with status 400 and json {error: 'invalid username or password'}", async () => {
       const expectedResponse = { error: "invalid username or password" };
       const expectedStatus = 400;
@@ -66,6 +73,20 @@ describe("Given a user router at endpoint /user/login", () => {
         .expect(expectedStatus);
 
       expect(body).toEqual(expectedResponse);
+    });
+  });
+
+  describe("When it receives a request with method post with body {userName: 'joselito1', password:'123'} and user is logged", () => {
+    test("Then it should respond a valid token", async () => {
+      const expectedStatus = 200;
+      const user = { userName: "joselito1", password: "123" };
+
+      const { body } = await request(app)
+        .post("/user/login")
+        .send(user)
+        .expect(expectedStatus);
+
+      expect(body).toHaveProperty("token");
     });
   });
 });
