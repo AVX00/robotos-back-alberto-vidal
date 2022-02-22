@@ -1,7 +1,6 @@
 node_modules
 .env
 coverage
-sonar-project.properties
 sonar.key
 .scannerwork
 .vscode
