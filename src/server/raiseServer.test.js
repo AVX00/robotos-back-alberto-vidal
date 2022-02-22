@@ -1,14 +1,16 @@
+const express = require("express");
 const raiseServer = require("./raiseServer");
 
 describe("Given a raise server function", () => {
   describe("When it's called with a port and an express app", () => {
-    test("Then it should call listen method of app with the received port", () => {
+    test("Then it should call listen method of app with the received port", async () => {
       const port = 3000;
-      const app = { listen: jest.fn() };
+      const app = express();
+      jest.spyOn(app, "listen");
 
-      raiseServer(port, app);
+      await raiseServer(port, app);
 
-      expect(app.listen).toHaveBeenCalledWith(port);
+      expect(app.listen).toHaveBeenCalled();
     });
   });
 });
