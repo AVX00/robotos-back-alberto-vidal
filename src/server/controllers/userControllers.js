@@ -8,6 +8,7 @@ const registerUser = async (req, res, next) => {
   try {
     const password = await bcrypt.hash(userPassword, 10);
     await User.create({ userName, password });
+    res.status(201).json({ user: "created" });
   } catch (error) {
     next(new Error("error creating user"));
   }
