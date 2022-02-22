@@ -3,8 +3,7 @@ const serverSays = require("debug")("robots:root:");
 const chalk = require("chalk");
 const connectdb = require("./dataBase");
 const app = require("./server");
-
-const raiseServer = require("./server");
+const raiseServer = require("./server/raiseServer");
 
 const port = process.env.PORT;
 const key = process.env.MONGO_DB;
